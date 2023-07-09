@@ -1,0 +1,1 @@
+g++.exe -o keylogger9 keylogger9.cpp -luser32
